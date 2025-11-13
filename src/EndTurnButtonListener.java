@@ -1,15 +1,22 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class EndTurnButtonListener implements ActionListener{
 	EnemyField enemies;
 	JLabel healthTag;
 	Player player;
-	public EndTurnButtonListener(EnemyField enemies, Player player, JLabel healthTag) {
+	Deck deck;
+	JPanel allyPanel;
+	GUITest2 gui;
+	public EndTurnButtonListener(GUITest2 gui, EnemyField enemies, Player player, JLabel healthTag, Deck deck, JPanel allyPanel) {
 		this.enemies = enemies;
 		this.healthTag = healthTag;
 		this.player = player;
+		this.deck = deck;
+		this.allyPanel = allyPanel;
+		this.gui = gui;
 	}
 	
 	@Override
@@ -19,6 +26,7 @@ public class EndTurnButtonListener implements ActionListener{
 		if(player.getHealth() <= 0) {
 			GUITest2.lose();
 		}
+		allyPanel.add(new JLabel(deck.draw().getImage()));
+		gui.updateUI();
 	}
-
 }
