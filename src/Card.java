@@ -7,6 +7,9 @@ public class Card {
 		this.cardID = cardID;
 		image = new ImageIcon(String.format("%s.png", cardID));
 	}
+	public String getID() {
+		return cardID;
+	}
 	public ImageIcon getImage() {
 		return image;
 	}
