@@ -1,7 +1,7 @@
 
 public class SpellCard extends Card{
-	int draw;
-	int discard;
+	private int draw;
+	private int discard;
 
 	public SpellCard(String cardID) {
 		super(cardID);

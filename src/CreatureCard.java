@@ -1,7 +1,7 @@
 
 public class CreatureCard extends Card{
-	int health;
-	int damage;
+	private int health;
+	private int damage;
 
 	public CreatureCard(String cardID) {
 		super(cardID);

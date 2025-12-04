@@ -11,53 +11,82 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 
 public class GUITest2 extends JFrame{
-	JPanel allyPanel;
-	public GUITest2(EnemyField enemies, Player player) {
+	JPanel handPanel;
+	JPanel fieldPanel;
+	JPanel enemyPanel;
+	Player playerDeck;
+	EnemyField enemies;
+	public GUITest2(EnemyField enemies, Player playerDeck) {
+		this.playerDeck = playerDeck;
+		this.enemies = enemies;
+		playerDeck.addUI(this);
 		setTitle("Test Window");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(50,50));
-		JPanel enemyPanel = new JPanel();
+		enemyPanel = new JPanel();
 		
 		for(Card card : enemies.getEnemies()) {
-			enemyPanel.add(new JLabel(card.getImage()));
+			card.getView().addActionListener(new EnemyListener(card, enemies));
+			enemyPanel.add(card.getView());
 		}
 		
-		allyPanel = new JPanel();
-		DeckList testList = new DeckList();
-		Deck playerDeck = new Deck(testList);
-		
+		JPanel playerPanel = new JPanel();
+		playerPanel.setLayout(new BorderLayout());
+		handPanel = new JPanel();
 		for(Card c : playerDeck.getHand()) {
-			allyPanel.add(new JLabel(c.getImage()));
+			c.getView().addActionListener(new CardListener(c, playerDeck, enemies));
+			handPanel.add(c.getView());
 		}
-		
-		JLabel health = new JLabel("" + player.getHealth());
-		EndTurnButtonListener listener = new EndTurnButtonListener(this, enemies, player, health, playerDeck, allyPanel);
+		playerPanel.add(handPanel, BorderLayout.SOUTH);
+		fieldPanel = new JPanel();
+		for(Card c : playerDeck.getField()) {
+			fieldPanel.add(c.getView());
+		}
+		playerPanel.add(fieldPanel, BorderLayout.NORTH);
+		JLabel health = new JLabel("" + playerDeck.getHealth());
+		EndTurnButtonListener listener = new EndTurnButtonListener(this, enemies, health, playerDeck, handPanel);
 		EndTurnButton endTurn = new EndTurnButton("End Turn");
 		endTurn.addActionListener(listener);
 		JPanel stuff = new JPanel();
 		stuff.add(endTurn);
 		stuff.add(health);
-		add(allyPanel, BorderLayout.CENTER);
+		add(playerPanel, BorderLayout.CENTER);
 		add(stuff, BorderLayout.SOUTH);
 		add(enemyPanel, BorderLayout.NORTH);
-		health.setText("" + player.getHealth());
+		health.setText("" + playerDeck.getHealth());
 		pack();
 		setVisible(true);
 	}
 	
 	public static void main(String[] args) {
-		Player thePlayer = new Player();
-		EnemyField enemies = new EnemyField(thePlayer);
-		new GUITest2(enemies, thePlayer);
+		DeckList testList = new DeckList();
+		Player playerDeck = new Player(testList);
+		EnemyField enemies = new EnemyField(playerDeck);
+		new GUITest2(enemies, playerDeck);
 	}
-	
+
+	public static void win() {
+		JOptionPane.showMessageDialog(null, "You Win");
+		System.exit(0);
+	}
 	public static void lose() {
 		JOptionPane.showMessageDialog(null, "You Lose");
 		System.exit(0);
 	}
 	
 	public void updateUI() {
-		add(allyPanel, BorderLayout.CENTER);
+		handPanel.removeAll();
+		fieldPanel.removeAll();
+		enemyPanel.removeAll();
+		for(Card c : playerDeck.getHand()) {
+			handPanel.add(c.getView());
+		}
+		for(Card c : playerDeck.getField()) {
+			fieldPanel.add(c.getView());
+		}
+		for(Card c : enemies.getEnemies()) {
+			enemyPanel.add(c.getView());
+		}
 		pack();
 	}
 }

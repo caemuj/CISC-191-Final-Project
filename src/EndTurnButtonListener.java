@@ -4,16 +4,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class EndTurnButtonListener implements ActionListener{
-	EnemyField enemies;
-	JLabel healthTag;
-	Player player;
-	Deck deck;
-	JPanel allyPanel;
-	GUITest2 gui;
-	public EndTurnButtonListener(GUITest2 gui, EnemyField enemies, Player player, JLabel healthTag, Deck deck, JPanel allyPanel) {
+	private EnemyField enemies;
+	private JLabel healthTag;
+	private Player deck;
+	private JPanel allyPanel;
+	private GUITest2 gui;
+	public EndTurnButtonListener(GUITest2 gui, EnemyField enemies, JLabel healthTag, Player deck, JPanel allyPanel) {
 		this.enemies = enemies;
 		this.healthTag = healthTag;
-		this.player = player;
 		this.deck = deck;
 		this.allyPanel = allyPanel;
 		this.gui = gui;
@@ -22,11 +20,13 @@ public class EndTurnButtonListener implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		enemies.attack();
-		healthTag.setText("" + player.getHealth());
-		if(player.getHealth() <= 0) {
+		healthTag.setText("" + deck.getHealth());
+		if(deck.getHealth() <= 0) {
 			GUITest2.lose();
 		}
-		allyPanel.add(new JLabel(deck.draw().getImage()));
+		Card drawnCard = deck.draw();
+		drawnCard.getView().addActionListener(new CardListener(drawnCard, deck, enemies));
+		allyPanel.add(drawnCard.getView());
 		gui.updateUI();
 	}
 }

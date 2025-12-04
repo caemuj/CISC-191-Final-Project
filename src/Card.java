@@ -1,16 +1,19 @@
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
-public class Card {
-	String cardID;
-	ImageIcon image;
+public class Card{
+	private String cardID;
+	private CardView view;
 	public Card(String cardID) {
+		super();
 		this.cardID = cardID;
-		image = new ImageIcon(String.format("%s.png", cardID));
+		view = new CardView(this);
 	}
 	public String getID() {
 		return cardID;
 	}
-	public ImageIcon getImage() {
-		return image;
+	
+	public CardView getView() {
+		return view;
 	}
 }
