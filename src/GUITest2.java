@@ -66,6 +66,7 @@ public class GUITest2 extends JFrame{
 	}
 
 	public static void win() {
+		Director.addScore();
 		JOptionPane.showMessageDialog(null, "You Win");
 		System.exit(0);
 	}
