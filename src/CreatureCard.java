@@ -1,13 +1,22 @@
 
 public class CreatureCard extends Card{
-	private int health;
-	private int damage;
+	private int strength;
+	private int cost;
 
 	public CreatureCard(String cardID) {
 		super(cardID);
 		String[] stringStats = cardID.split(";");
-		health = Integer.parseInt(stringStats[0]);
-		damage = Integer.parseInt(stringStats[1]);
+		strength = Integer.parseInt(stringStats[0]);
+		cost = Integer.parseInt(stringStats[1]);
+	}
+	
+	public int getStrength() {
+		return strength;
+	}
+	
+	@Override
+	public int getCost() {
+		return cost;
 	}
 
 }

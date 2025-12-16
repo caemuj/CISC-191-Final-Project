@@ -11,7 +11,10 @@ public class EnemyListener implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		enemies.enemyAttacked(linkedEnemy);
-		enemies.areDefeated();
+		if(CardListener.currentAttackValue >= linkedEnemy.getStrength()) {
+			enemies.enemyAttacked(linkedEnemy);
+			enemies.areDefeated();
+		}
+		enemies.endAttack();
 	}
 }

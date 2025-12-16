@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 public class Player {
@@ -8,21 +9,26 @@ public class Player {
 	private ArrayList<Card> field;
 	private DeckList cards;
 	private int hp;
+	private int maxMana;
+	private int mana;
 	public Player(DeckList cards) {
 		hp = 10;
+		mana = 5;
+		maxMana = 5;
 		this.cards = cards;
 		drawPile = new Stack<Card>();
 		for(Card c : cards.getCards()) {
 			drawPile.add(c);
 		}
+		Collections.shuffle(drawPile);
 		hand = new ArrayList<Card>();
 		for(int i = 0; i < 5; i++) {
 			hand.add(drawPile.pop());
 		}
 		field = new ArrayList<Card>();
 	}
-	public void takeDamage() {
-		hp--;
+	public void takeDamage(int damage) {
+		hp -= damage;
 	}
 	public int getHealth() {
 		return hp;
@@ -41,7 +47,6 @@ public class Player {
 	public void addToField(Card addedCard) {
 		field.add(addedCard);
 		hand.remove(addedCard);
-		System.out.println("hi");
 		ui.updateUI();
 	}
 	public void addUI(GUITest2 ui) {
@@ -55,7 +60,6 @@ public class Player {
 	}
 	public void fieldAttacked() {
 		field.removeFirst();
-		System.out.println(field.size());
 	}
 	public ArrayList<Card> getField(){
 		return field;
@@ -81,5 +85,18 @@ public class Player {
 	
 	public void updateUI() {
 		ui.updateUI();
+	}
+	
+	public int getMana() {
+		return mana;
+	}
+	
+	public void resetMana() {
+		mana = maxMana;
+	}
+	
+	public void spendMana(int cost) {
+		System.out.println("Spending " + cost + " mana.");
+		mana = mana - cost;
 	}
 }

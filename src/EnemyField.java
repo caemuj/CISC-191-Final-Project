@@ -6,9 +6,9 @@ public class EnemyField {
 
 	public EnemyField(Player player) {
 		enemies = new ArrayList<Card>();
-		Card myCard = new Card("10;15");
-		Card mySecondCard = new Card("10;15");
-		Card myThirdCard = new Card("10;15");
+		CreatureCard myCard = new CreatureCard("2;2");
+		CreatureCard mySecondCard = new CreatureCard("2;2");
+		CreatureCard myThirdCard = new CreatureCard("2;2");
 		enemies.add(myCard);
 		enemies.add(mySecondCard);
 		enemies.add(myThirdCard);
@@ -26,7 +26,7 @@ public class EnemyField {
 	public void attack() {
 		for (Card enemy : enemies) {
 			if (player.fieldIsEmpty()) {
-				player.takeDamage();
+				player.takeDamage(enemy.getStrength());
 			} 
 			else {
 				player.fieldAttacked();
@@ -49,6 +49,9 @@ public class EnemyField {
 	public void enemyAttacked(Card attackedEnemy) {
 		enemies.remove(attackedEnemy);
 		player.updateUI();
+	}
+	
+	public void endAttack() {
 		disableAllEnemyCards();
 		player.enableAllPlayerCards();
 	}

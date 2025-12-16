@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 
 public class GUITest2 extends JFrame{
 	JPanel handPanel;
@@ -33,8 +34,9 @@ public class GUITest2 extends JFrame{
 		JPanel playerPanel = new JPanel();
 		playerPanel.setLayout(new BorderLayout());
 		handPanel = new JPanel();
+		JLabel mana = new JLabel("Mana: " + playerDeck.getMana());
 		for(Card c : playerDeck.getHand()) {
-			c.getView().addActionListener(new CardListener(c, playerDeck, enemies));
+			c.getView().addActionListener(new CardListener(c, playerDeck, enemies, mana));
 			handPanel.add(c.getView());
 		}
 		playerPanel.add(handPanel, BorderLayout.SOUTH);
@@ -43,17 +45,18 @@ public class GUITest2 extends JFrame{
 			fieldPanel.add(c.getView());
 		}
 		playerPanel.add(fieldPanel, BorderLayout.NORTH);
-		JLabel health = new JLabel("" + playerDeck.getHealth());
-		EndTurnButtonListener listener = new EndTurnButtonListener(this, enemies, health, playerDeck, handPanel);
+		JLabel health = new JLabel("Health: " + playerDeck.getHealth());
+		EndTurnButtonListener listener = new EndTurnButtonListener(this, enemies, health, playerDeck, handPanel, mana);
 		EndTurnButton endTurn = new EndTurnButton("End Turn");
 		endTurn.addActionListener(listener);
 		JPanel stuff = new JPanel();
 		stuff.add(endTurn);
 		stuff.add(health);
+		stuff.add(mana);
 		add(playerPanel, BorderLayout.CENTER);
 		add(stuff, BorderLayout.SOUTH);
 		add(enemyPanel, BorderLayout.NORTH);
-		health.setText("" + playerDeck.getHealth());
+		this.setMinimumSize(new Rectangle(1000,600).getSize());
 		pack();
 		setVisible(true);
 	}
@@ -89,5 +92,6 @@ public class GUITest2 extends JFrame{
 			enemyPanel.add(c.getView());
 		}
 		pack();
+		repaint();
 	}
 }

@@ -16,4 +16,12 @@ public class Card{
 	public CardView getView() {
 		return view;
 	}
+	
+	public int getCost() {
+		return -1;
+	}
+	
+	public int getStrength() {
+		return -1;
+	}
 }
