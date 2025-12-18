@@ -34,7 +34,7 @@ public class EnemyField {
 	public void reset() {
 		Director.addScore();
 		for(int i = 0; i <= Director.getScore() && i <= 7; i++) {
-			int stat = new Random().nextInt(1,2);
+			int stat = new Random().nextInt(1,3);
 			enemies.add(new CreatureCard(String.format("%d;%d", stat, stat)));
 		}
 //		if(Director.getScore() < 3) {
@@ -52,11 +52,11 @@ public class EnemyField {
 //				enemies.add(new CreatureCard("2;2"));
 //			}
 //		}
-//		for(Card enemy : enemies) {
-//			enemy.getView().addActionListener(new EnemyListener(enemy, this));
-//			enemy.getView().setEnabled(false);
-//			enemy.getView().setDisabledIcon(enemy.getView().getImage());
-//		}
+		for(Card enemy : enemies) {
+			enemy.getView().addActionListener(new EnemyListener(enemy, this));
+			enemy.getView().setEnabled(false);
+			enemy.getView().setDisabledIcon(enemy.getView().getImage());
+		}
 	}
 
 	/**
