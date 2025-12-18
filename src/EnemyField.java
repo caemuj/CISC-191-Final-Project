@@ -33,25 +33,21 @@ public class EnemyField {
 	 */
 	public void reset() {
 		Director.addScore();
-		for(int i = 0; i <= Director.getScore() && i <= 7; i++) {
-			int stat = new Random().nextInt(1,3);
-			enemies.add(new CreatureCard(String.format("%d;%d", stat, stat)));
+		if(Director.getScore() < 3) {
+			for(int i = 1; i < 3; i++) {
+				enemies.add(new CreatureCard(String.format("%d;%d", i, i)));
+			}
 		}
-//		if(Director.getScore() < 3) {
-//			for(int i = 1; i < 3; i++) {
-//				enemies.add(new CreatureCard(String.format("%d;%d", i, i)));
-//			}
-//		}
-//		else if(Director.getScore() >= 3 && Director.getScore() < 6) {
-//			for(int i = 1; i <= Director.getScore(); i++) {
-//				enemies.add(new CreatureCard("2;2"));
-//			}
-//		}
-//		else {
-//			for(int i = 1; i < 3; i++) {
-//				enemies.add(new CreatureCard("2;2"));
-//			}
-//		}
+		else if(Director.getScore() >= 3 && Director.getScore() < 6) {
+			for(int i = 1; i <= Director.getScore(); i++) {
+				enemies.add(new CreatureCard("2;2"));
+			}
+		}
+		else {
+			for(int i = 1; i < 8; i++) {
+				enemies.add(new CreatureCard("2;2"));
+			}
+		}
 		for(Card enemy : enemies) {
 			enemy.getView().addActionListener(new EnemyListener(enemy, this));
 			enemy.getView().setEnabled(false);
