@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @author Caeden Mujahed
@@ -32,26 +33,30 @@ public class EnemyField {
 	 */
 	public void reset() {
 		Director.addScore();
-		if(Director.getScore() < 3) {
-			for(int i = 1; i < 3; i++) {
-				enemies.add(new CreatureCard(String.format("%d;%d", i, i)));
-			}
+		for(int i = 0; i <= Director.getScore() && i <= 7; i++) {
+			int stat = new Random().nextInt(1,2);
+			enemies.add(new CreatureCard(String.format("%d;%d", stat, stat)));
 		}
-		else if(Director.getScore() >= 3 && Director.getScore() < 6) {
-			for(int i = 1; i <= Director.getScore(); i++) {
-				enemies.add(new CreatureCard("2;2"));
-			}
-		}
-		else {
-			for(int i = 1; i < 3; i++) {
-				enemies.add(new CreatureCard("2;2"));
-			}
-		}
-		for(Card enemy : enemies) {
-			enemy.getView().addActionListener(new EnemyListener(enemy, this));
-			enemy.getView().setEnabled(false);
-			enemy.getView().setDisabledIcon(enemy.getView().getImage());
-		}
+//		if(Director.getScore() < 3) {
+//			for(int i = 1; i < 3; i++) {
+//				enemies.add(new CreatureCard(String.format("%d;%d", i, i)));
+//			}
+//		}
+//		else if(Director.getScore() >= 3 && Director.getScore() < 6) {
+//			for(int i = 1; i <= Director.getScore(); i++) {
+//				enemies.add(new CreatureCard("2;2"));
+//			}
+//		}
+//		else {
+//			for(int i = 1; i < 3; i++) {
+//				enemies.add(new CreatureCard("2;2"));
+//			}
+//		}
+//		for(Card enemy : enemies) {
+//			enemy.getView().addActionListener(new EnemyListener(enemy, this));
+//			enemy.getView().setEnabled(false);
+//			enemy.getView().setDisabledIcon(enemy.getView().getImage());
+//		}
 	}
 
 	/**

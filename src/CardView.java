@@ -18,7 +18,6 @@ public class CardView extends JButton {
 		image = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
 		this.setIcon(image);
 		onField = false;
-		this.setText("false");
 	}
 	
 	public ImageIcon getImage() {
@@ -31,11 +30,9 @@ public class CardView extends JButton {
 	
 	public void playCard() {
 		onField = true;
-		this.setText("true");
 	}
 	
 	public void offField() {
 		onField = false;
-		this.setText("false");
 	}
 }

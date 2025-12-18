@@ -7,8 +7,6 @@
 public class SpellCard extends Card{
 	private int draw;
 	private int cost;
-	private static int idCounter = 1;
-	private int idnumber;
 
 	/**
 	 * Constructor for the SpellCard class
@@ -19,9 +17,6 @@ public class SpellCard extends Card{
 		String[] stringStats = cardID.split(";");
 		draw = Integer.parseInt(stringStats[0]);
 		cost = Integer.parseInt(stringStats[1]);
-		idnumber = idCounter;
-		idCounter++;
-		this.getView().setText(String.format("%d", idnumber));
 	}
 	
 	/**
