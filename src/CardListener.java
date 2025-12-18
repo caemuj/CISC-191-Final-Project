@@ -4,6 +4,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+/**
+ * @author Caeden Mujahed
+ * @version 1.0
+ * Responsible for handling player interactions with their own cards
+ */
 public class CardListener implements ActionListener{
 	public static int currentAttackValue = 0;
 	private Card linkedCard;
@@ -16,13 +21,19 @@ public class CardListener implements ActionListener{
 		this.enemyField = enemyField;
 		this.manaTag = manaTag;
 	}
+	/**
+	 * Handles event when the player clicks on their own card, allows them to either play the card from their hand to the field or spend mana to attack with it if it is already on the field.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//check whether a card is in hand or on field
-		if(linkedCard.getView().isOnField() && playerDeck.getMana() >= linkedCard.getCost()) {
-			//if the card is on the field, disable all player hand and field cards and enable enemy cards for attack
+		if(linkedCard instanceof SpellCard) {
+			playerDeck.removeCard(linkedCard);
+			playerDeck.spendMana(linkedCard.getCost());
+			manaTag.setText("Mana: " + playerDeck.getMana());
+			playerDeck.draw(linkedCard.getDraw());
+		}
+		else if(linkedCard.getView().isOnField() && playerDeck.getMana() >= linkedCard.getCost()) {
 			currentAttackValue = linkedCard.getStrength();
-			System.out.println("Current Attack Value: " + currentAttackValue);
 			playerDeck.disableAllPlayerCards();
 			enemyField.enableAllEnemyCards();
 			playerDeck.spendMana(linkedCard.getCost());
@@ -32,7 +43,7 @@ public class CardListener implements ActionListener{
 		else if(linkedCard.getView().isOnField()) {
 			JOptionPane.showMessageDialog(null, "Not Enough Mana!");
 		}
-		else {
+		else if(playerDeck.fieldHasSpace()){
 			playerDeck.addToField(linkedCard);
 			linkedCard.getView().playCard();
 		}
