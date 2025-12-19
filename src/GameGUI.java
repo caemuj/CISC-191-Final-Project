@@ -23,50 +23,60 @@ import java.util.Scanner;
  * @author Caeden Mujahed
  * 
  * @version 1.0
- * This class is responsible for creating the main game window, updating the UI, and handling the game's end
+ *          This class is responsible for creating the main game window,
+ *          updating the UI, and handling the game's end
  */
-public class GameGUI extends JFrame{
+public class GameGUI extends JFrame
+{
 	private JPanel handPanel;
 	private JPanel fieldPanel;
 	private JPanel enemyPanel;
 	private JLabel manaLabel;
 	private Player playerDeck;
 	private EnemyField enemies;
-	
+
 	/**
 	 * Constructor for the game window
-	 * @param enemies The EnemyField object responsible for managing enemy cards
-	 * @param playerDeck The Player object which is responsible for managing the player's resources
+	 * 
+	 * @param enemies    The EnemyField object responsible for managing enemy
+	 *                   cards
+	 * @param playerDeck The Player object which is responsible for managing the
+	 *                   player's resources
 	 */
-	public GameGUI(EnemyField enemies, Player playerDeck) {
+	public GameGUI(EnemyField enemies, Player playerDeck)
+	{
 		this.playerDeck = playerDeck;
 		this.enemies = enemies;
 		playerDeck.addUI(this);
 		setTitle("Test Window");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout(50,50));
+		setLayout(new BorderLayout(50, 50));
 		enemyPanel = new JPanel();
-		
-		for(Card card : enemies.getEnemies()) {
+
+		for (Card card : enemies.getEnemies())
+		{
 			card.getView().addActionListener(new EnemyListener(card, enemies));
 			enemyPanel.add(card.getView());
 		}
-		
+
 		JPanel playerPanel = new JPanel();
 		playerPanel.setLayout(new BorderLayout());
 		handPanel = new JPanel();
 		manaLabel = new JLabel("Mana: " + playerDeck.getMana());
-		for(Card c : playerDeck.getHand()) {
+		for (Card c : playerDeck.getHand())
+		{
 			handPanel.add(c.getView());
 		}
 		playerPanel.add(handPanel, BorderLayout.SOUTH);
 		fieldPanel = new JPanel();
-		for(Card c : playerDeck.getField()) {
+		for (Card c : playerDeck.getField())
+		{
 			fieldPanel.add(c.getView());
 		}
 		playerPanel.add(fieldPanel, BorderLayout.NORTH);
 		JLabel health = new JLabel("Health: " + playerDeck.getHealth());
-		EndTurnButtonListener listener = new EndTurnButtonListener(this, enemies, health, playerDeck, handPanel, manaLabel);
+		EndTurnButtonListener listener = new EndTurnButtonListener(this,
+				enemies, health, playerDeck, handPanel, manaLabel);
 		EndTurnButton endTurn = new EndTurnButton("End Turn");
 		playerDeck.addListeners();
 		endTurn.addActionListener(listener);
@@ -77,16 +87,18 @@ public class GameGUI extends JFrame{
 		add(playerPanel, BorderLayout.CENTER);
 		add(stuff, BorderLayout.SOUTH);
 		add(enemyPanel, BorderLayout.NORTH);
-		this.setMinimumSize(new Rectangle(1400,600).getSize());
+		this.setMinimumSize(new Rectangle(1400, 600).getSize());
 		pack();
 		setVisible(true);
 	}
-	
+
 	/**
 	 * Main method to start the game
+	 * 
 	 * @param args Not used
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		DeckList testList = new DeckList();
 		Player playerDeck = new Player(testList);
 		EnemyField enemies = new EnemyField(playerDeck);
@@ -94,99 +106,128 @@ public class GameGUI extends JFrame{
 	}
 
 	/**
-	 * Method to handle the end of the game when the player loses. It updates score history, displays player score, and shows the local leaderboard.
+	 * Method to handle the end of the game when the player loses. It updates
+	 * score history, displays player score, and shows the local leaderboard.
 	 */
-	public static void lose() {
+	public static void lose()
+	{
 		String fileContents = "";
-		try {
+		try
+		{
 			Scanner fileScanner = new Scanner(new File("Leaderboard.txt"));
-			while(fileScanner.hasNextLine()) {
+			while (fileScanner.hasNextLine())
+			{
 				fileContents += fileScanner.nextLine() + "\n";
 			}
 			fileScanner.close();
 		}
-		catch(Exception e) {
+		catch (Exception e)
+		{
 		}
 		String[] lines = fileContents.split("\n");
 		ArrayList<Integer> scores = new ArrayList<Integer>();
-		if(lines[0] != "") {
-			for(int i = 0; i < lines.length; i++) {
+		if (lines[0] != "")
+		{
+			for (int i = 0; i < lines.length; i++)
+			{
 				lines[i] = lines[i].replaceAll("Rank [0-9] Score: ", "");
 			}
-			for(int i = 0; i < lines.length; i++) {
+			for (int i = 0; i < lines.length; i++)
+			{
 				scores.add(Integer.parseInt(lines[i]));
 			}
 			Collections.sort(scores);
-			for(int i = scores.size() - 1; i >= 0; i--) {
-				if(scores.get(i) <= Director.getScore()) {
+			for (int i = scores.size() - 1; i >= 0; i--)
+			{
+				if (scores.get(i) <= Director.getScore())
+				{
 					scores.add(i + 1, Director.getScore());
 					break;
 				}
 			}
 		}
-		else {
+		else
+		{
 			scores.add(Director.getScore());
 		}
 		int counter = 1;
 		String leaderboard = "";
-		try {
+		try
+		{
 			PrintWriter writer = new PrintWriter("Leaderboard.txt");
-			for(int i = scores.size() - 1; i >= scores.size() - 5 && i >= 0; i--) {
-				writer.println(String.format("Rank %d Score: %d", counter, scores.get(i)));
-				leaderboard += String.format("Rank %d Score: %d\n", counter, scores.get(i));
+			for (int i = scores.size() - 1; i >= scores.size() - 5
+					&& i >= 0; i--)
+			{
+				writer.println(String.format("Rank %d Score: %d", counter,
+						scores.get(i)));
+				leaderboard += String.format("Rank %d Score: %d\n", counter,
+						scores.get(i));
 				counter++;
 			}
 			writer.close();
 		}
-		catch(Exception e) {
-			
+		catch (Exception e)
+		{
+
 		}
-		
-		JOptionPane.showMessageDialog(null, String.format("You Lost!\nYour Score: %d\n\nLeaderboard:\n%s", Director.getScore(), leaderboard));
+
+		JOptionPane.showMessageDialog(null,
+				String.format("You Lost!\nYour Score: %d\n\nLeaderboard:\n%s",
+						Director.getScore(), leaderboard));
 		System.exit(0);
 	}
-	
+
 	/**
 	 * Method to update the game UI
 	 */
-	public void updateUI() {
+	public void updateUI()
+	{
 		handPanel.removeAll();
 		fieldPanel.removeAll();
 		enemyPanel.removeAll();
-		for(Card c : playerDeck.getHand()) {
+		for (Card c : playerDeck.getHand())
+		{
 			handPanel.add(c.getView());
 		}
-		for(Card c : playerDeck.getField()) {
+		for (Card c : playerDeck.getField())
+		{
 			fieldPanel.add(c.getView());
 		}
-		for(Card c : enemies.getEnemies()) {
+		for (Card c : enemies.getEnemies())
+		{
 			enemyPanel.add(c.getView());
 		}
 		pack();
 		repaint();
 	}
-	
+
 	/**
 	 * A getter method for the mana value display
+	 * 
 	 * @return JLabel responsible for displaying player's mana
 	 */
-	public JLabel getManaTag() {
+	public JLabel getManaTag()
+	{
 		return manaLabel;
 	}
-	
+
 	/**
 	 * A getter method for the EnemyField
+	 * 
 	 * @return EnemyField responsible for managing enemy data
 	 */
-	public EnemyField getEnemies() {
+	public EnemyField getEnemies()
+	{
 		return enemies;
 	}
-	
+
 	/**
 	 * A getter method for the JPanel that displays the player's hand
+	 * 
 	 * @return JPanel that holds display elements of the player's hand
 	 */
-	public JPanel getAllyPanel() {
+	public JPanel getAllyPanel()
+	{
 		return handPanel;
 	}
 }
