@@ -6,7 +6,7 @@ import javax.swing.JButton;
  * @version 1.0
  * Used as a parent class for the other card types
  */
-public class Card{
+public abstract class Card{
 	private String cardID;
 	private CardView view;
 	
@@ -38,11 +38,9 @@ public class Card{
 	
 	/**
 	 * Getter for the card's mana cost
-	 * @return Returns 0 by default; overridden in relevant subclasses
+	 * @return Returns card's mana cost
 	 */
-	public int getCost() {
-		return 0;
-	}
+	public abstract int getCost();
 	
 	/**
 	 * Getter for the card's strength

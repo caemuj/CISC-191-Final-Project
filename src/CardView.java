@@ -20,18 +20,32 @@ public class CardView extends JButton {
 		onField = false;
 	}
 	
+	/**
+	 * A getter for the CardView's displayed image
+	 * @return ImageIcon used as CardView's image
+	 */
 	public ImageIcon getImage() {
 		return image;
 	}
 	
+	/**
+	 * Checks whether or not the card is currently on the field
+	 * @return boolean value, true if card is on field or false if card is not
+	 */
 	public boolean isOnField() {
 		return onField;
 	}
 	
+	/**
+	 * Updates card's onField value to true
+	 */
 	public void playCard() {
 		onField = true;
 	}
 	
+	/**
+	 * Updates card's onField value to false
+	 */
 	public void offField() {
 		onField = false;
 	}

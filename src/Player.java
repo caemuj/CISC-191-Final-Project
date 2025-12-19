@@ -59,12 +59,19 @@ public class Player {
 		return hp;
 	}
 	
+	/**
+	 * A method to add CardListeners to all of the player's cards
+	 */
 	public void addListeners() {
 		for(Card c : cards.getCards()) {
 			c.getView().addActionListener(new CardListener(c, this, ui.getEnemies(), ui.getManaTag()));
 		}
 	}
 	
+	/**
+	 * A method that checks to see if the player's field has space
+	 * @return Boolean value, true if player's field has space, false if it is full
+	 */
 	public boolean fieldHasSpace() {
 		if(field.size() >= 5) {
 			return false;

@@ -166,14 +166,26 @@ public class GameGUI extends JFrame{
 		repaint();
 	}
 	
+	/**
+	 * A getter method for the mana value display
+	 * @return JLabel responsible for displaying player's mana
+	 */
 	public JLabel getManaTag() {
 		return manaLabel;
 	}
 	
+	/**
+	 * A getter method for the EnemyField
+	 * @return EnemyField responsible for managing enemy data
+	 */
 	public EnemyField getEnemies() {
 		return enemies;
 	}
 	
+	/**
+	 * A getter method for the JPanel that displays the player's hand
+	 * @return JPanel that holds display elements of the player's hand
+	 */
 	public JPanel getAllyPanel() {
 		return handPanel;
 	}
